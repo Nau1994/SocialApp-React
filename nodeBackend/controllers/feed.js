@@ -34,6 +34,7 @@ exports.getPosts = (req, res, next) => {
 };
 
 exports.createPost = (req, res, next) => {
+  // console.log(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error('Validation failed, entered data is incorrect.');
@@ -45,7 +46,7 @@ exports.createPost = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  const imageUrl = req.file.path;
+  const imageUrl = req.file.path.replace("\\" ,"/");
   const title = req.body.title;
   const content = req.body.content;
   let creator;
@@ -109,7 +110,7 @@ exports.updatePost = (req, res, next) => {
   }
   const title = req.body.title;
   const content = req.body.content;
-  let imageUrl = req.body.image;
+  let imageUrl = req.file.path.replace("\\" ,"/");
   if (req.file) {
     imageUrl = req.file.path;
   }
